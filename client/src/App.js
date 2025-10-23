@@ -4,7 +4,7 @@ import './App.css'; // Importa los estilos CSS tradicionales
 // Si index.js importa App.css, esta línea debe ser eliminada o comentada.
 
 // URL base de tu API de Node.js/Express
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 // --- FUNCIONES DE UTILIDAD ---
 // 1. Obtiene la ubicación GPS
