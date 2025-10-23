@@ -1,0 +1,338 @@
+/* Estilos generales de la aplicación */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9; /* Fondo muy claro */
+}
+
+/* Encabezado */
+.app-header {
+  background-color: #004d99; /* Azul oscuro corporativo */
+  color: white;
+  padding: 15px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+/* Contenido Principal */
+.app-main {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Pie de página */
+.app-footer {
+  background-color: #e0e0e0;
+  color: #555;
+  padding: 10px;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+/* --- ESTILOS ESPECÍFICOS DE LOGIN --- */
+
+.login-container {
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-card {
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-top: 5px solid #007bff; /* Borde de color de marca */
+}
+
+.login-card h2 {
+  margin-top: 0;
+  color: #333;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box; /* Asegura que el padding no añada ancho extra */
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.login-card button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, opacity 0.3s;
+}
+
+.login-card button:hover {
+  background-color: #0056b3;
+}
+
+.login-card button:disabled {
+  background-color: #99c2ff;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* --- ESTILOS ESPECÍFICOS DE MARCACIÓN --- */
+
+.marcacion-card {
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.marcacion-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.logout-btn {
+  padding: 8px 15px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 0.9rem;
+}
+
+.logout-btn:hover {
+  background-color: #c82333;
+}
+
+.status-text {
+  font-size: 0.95rem;
+  color: #555;
+  text-align: center;
+  width: 100%;
+}
+
+.info-text {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+/* Área de Captura (Video/Imagen) */
+.capture-area {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  border: 1px dashed #ccc;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.video-stream, .captured-image {
+  width: 100%;
+  max-width: 320px; /* Tamaño máximo para la captura */
+  height: auto;
+  border-radius: 6px;
+  background-color: #222; /* Fondo para cuando la cámara está cargando */
+  display: block;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.capture-button {
+  margin-top: 15px;
+  padding: 12px 25px;
+  background-color: #28a745; /* Botón verde para capturar */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.capture-button:hover {
+  background-color: #1e7e34;
+}
+
+.capture-button:disabled {
+  background-color: #90ee90;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Botones de Acción (Entrada/Salida) */
+.captured-image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.repeat-button {
+  padding: 10px 15px;
+  background-color: #ffc107;
+  color: #333;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+  flex-grow: 1;
+  min-width: 150px;
+}
+
+.repeat-button:hover {
+  background-color: #e0a800;
+}
+
+.mark-button {
+  padding: 12px 25px;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  flex-grow: 1;
+  min-width: 150px;
+}
+
+.mark-button.entrada {
+  background-color: #007bff;
+}
+
+.mark-button.entrada:hover {
+  background-color: #0056b3;
+}
+
+.mark-button.salida {
+  background-color: #dc3545;
+}
+
+.mark-button.salida:hover {
+  background-color: #c82333;
+}
+
+/* Mensajes de estado (Éxito/Error) */
+.message {
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+}
+
+.message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.message.warning {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+}
+
+/* Overlay para carga */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #007bff;
+  font-size: 1.2rem;
+  border-radius: 8px;
+}
+
+/* Adaptación a dispositivos móviles */
+@media (max-width: 650px) {
+  .app-header h1 {
+      font-size: 1.2rem;
+      text-align: center;
+  }
+
+  .marcacion-card, .login-card {
+      padding: 20px;
+      margin: 10px;
+      max-width: 100%;
+  }
+
+  .marcacion-header {
+      flex-direction: column;
+      gap: 10px;
+  }
+
+  .action-buttons {
+      flex-direction: column;
+  }
+
+  .mark-button, .repeat-button {
+      width: 100%;
+      min-width: 100%;
+  }
+}
