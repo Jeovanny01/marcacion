@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './App.css'; // Importa los estilos CSS tradicionales
+
 // Si index.js importa App.css, esta línea debe ser eliminada o comentada.
 
 // URL base de tu API de Node.js/Express
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL = 'https://marcacion.netlify.app';
 
 // --- FUNCIONES DE UTILIDAD ---
 // 1. Obtiene la ubicación GPS
@@ -134,49 +135,36 @@ const MarcacionView = ({ userData, setIsLoggedIn }) => {
   };
 
   useEffect(() => {
-    // FUNCIÓN ASÍNCRONA PARA INICIALIZAR CÁMARA Y GPS
-    const initializeCameraAndGPS = async () => {
-        // 1. Obtener Ubicación
-        try {
-            const loc = await getGeolocation();
-            setLocation(loc);
-        } catch (err) {
-            setMessage({ type: 'error', text: `Error de ubicación: ${err.message}` });
-        }
+    // 1. Obtener Ubicación
+    getGeolocation()
+      .then(loc => setLocation(loc))
+      .catch(err => setMessage({ type: 'error', text: `Error de ubicación: ${err.message}` }));
 
-        // 2. Activar Cámara solo si estamos en modo captura y NO hay un stream activo
-        if (capturing && !stream) {
-            try {
-                const currentStream = await navigator.mediaDevices.getUserMedia({ 
-                    video: { width: 320, height: 240, facingMode: 'user' } 
-                });
-                
-                // ASIGNACIÓN CRÍTICA: Asignar el stream al elemento de video
-                if (videoRef.current) {
-                    videoRef.current.srcObject = currentStream;
-                }
-                setStream(currentStream);
+    // 2. Activar Cámara solo si estamos en modo captura y la cámara no está activa
+    if (capturing && !stream) {
+      navigator.mediaDevices.getUserMedia({ video: { width: 320, height: 240, facingMode: 'user' } })
+        .then(currentStream => {
+          if (videoRef.current) {
+            videoRef.current.srcObject = currentStream;
+            setStream(currentStream);
+          }
+        })
+        .catch(err => {
+          setMessage({ type: 'error', text: `Error al acceder a la cámara: ${err.name} - ${err.message}` });
+        });
+    }
 
-            } catch (err) {
-                setMessage({ type: 'error', text: `Error al acceder a la cámara: ${err.name} - ${err.message}` });
-            }
-        }
-    };
-
-    initializeCameraAndGPS();
-    
     // Limpieza: Esta función se ejecuta cuando el componente se desmonta (al hacer logout)
     return () => {
       if (stream) {
         stream.getTracks().forEach(track => track.stop());
       }
     };
-  }, [capturing]); // Solo dependemos de 'capturing'. 'stream' es manejado internamente.
+  }, [capturing, stream]);
 
   // Captura la foto
   const handleCapture = () => {
-    // CRÍTICO: Asegurarse de que el video ya esté cargado y el stream activo
-    if (videoRef.current && canvasRef.current && stream) {
+    if (videoRef.current && canvasRef.current) {
       const context = canvasRef.current.getContext('2d');
       const video = videoRef.current;
       
@@ -197,9 +185,6 @@ const MarcacionView = ({ userData, setIsLoggedIn }) => {
         stream.getTracks().forEach(track => track.stop());
         setStream(null); 
       }
-    } else {
-        // Muestra un mensaje si falla la captura (ej: cámara no lista)
-        setMessage({ type: 'warning', text: 'La cámara aún no está lista o no se obtuvieron permisos.' });
     }
   };
 
@@ -230,10 +215,7 @@ const MarcacionView = ({ userData, setIsLoggedIn }) => {
       if (response.status === 200) {
         setMessage({ type: 'success', text: `Marcación de ${type} exitosa! Servidor respondió: ${response.data.message}` });
         // Reiniciar el estado de captura para la próxima marcación
-        setTimeout(() => {
-            setImageData(null); // Limpiar foto anterior
-            setCapturing(true); 
-        }, 3000); 
+        setTimeout(() => setCapturing(true), 3000); 
       } else {
         setMessage({ type: 'error', text: `Error al marcar. Estatus: ${response.status}` });
       }
@@ -274,19 +256,10 @@ const MarcacionView = ({ userData, setIsLoggedIn }) => {
       <div className="capture-area">
         {capturing ? (
           <>
-            {/* Solo muestra el video si el stream está cargando o activo */}
-            <video 
-                ref={videoRef} 
-                autoPlay 
-                playsInline 
-                muted 
-                className="video-stream"
-                style={{ display: stream ? 'block' : 'none' }}
-            ></video>
-
+            <video ref={videoRef} autoPlay playsInline muted className="video-stream"></video>
             <button 
               onClick={handleCapture} 
-              disabled={loading || !location || !stream} // CRÍTICO: Solo activo si hay stream
+              disabled={loading || !location || !stream}
               className="capture-button"
             >
               Tomar Foto
@@ -347,7 +320,7 @@ const App = () => {
   return (
     <div className="app-container">
       <header className="app-header">
-        <h1>Ferretería El Amigo - Sistema de Marcación</h1>
+        <h1>ITEM - Sistema de Marcación</h1>
       </header>
       <main className="app-main">
         {!isLoggedIn ? (
@@ -364,7 +337,7 @@ const App = () => {
         )}
       </main>
       <footer className="app-footer">
-        <p>&copy; 2025 Ferretería El Amigo - Sistema de Marcación. Todos los derechos reservados.</p>
+        <p>&copy; 2025 ITEM - Sistema de Marcación. Todos los derechos reservados.</p>
       </footer>
     </div>
   );
