@@ -238,9 +238,9 @@ const MarcacionView = ({ userData, setIsLoggedIn }) => {
     <div className="marcacion-card">
       <div className="marcacion-header">
         <h2>Bienvenido, {userData.name}</h2>
-        <button className="logout-btn" onClick={stopCameraAndLogout}>
+       {/*  <button className="logout-btn" onClick={stopCameraAndLogout}>
           Cerrar Sesión
-        </button>
+        </button> */}
       </div>
 
       <p className="status-text">
