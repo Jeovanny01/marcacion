@@ -302,43 +302,92 @@ const MarcacionView = ({ userData, setIsLoggedIn }) => {
 };
 
 
-// 3. Componente Principal (App)
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState(null);
-  const [message, setMessage] = useState(null); // Mensaje global (para Login)
+  const [message, setMessage] = useState(null);
+  
+  // NUEVOS ESTADOS para el menú
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeView, setActiveView] = useState('marcacion'); // 'marcacion' o 'reportes'
 
-  useEffect(() => {
-    // Limpia el mensaje al cambiar el estado
-    if (message) {
-        const timer = setTimeout(() => setMessage(null), 5000);
-        return () => clearTimeout(timer);
-    }
-  }, [message]);
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  // Si no está logueado, muestra el login. Si está logueado, muestra la marcación.
+  // Función para cerrar sesión centralizada
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setIsMenuOpen(false);
+    // Si necesitas detener la cámara aquí, asegúrate de pasar la referencia del stream
+  };
+
   return (
-    <div className="app-container">
+    <div className={`app-container ${isMenuOpen ? 'menu-open' : ''}`}>
       <header className="app-header">
+        {isLoggedIn && (
+          <button className="hamburger-btn" onClick={toggleMenu}>☰</button>
+        )}
         <h1>ITEM - Sistema de Marcación</h1>
       </header>
+
+      {isLoggedIn && (
+        <>
+          <div className={`sidebar ${isMenuOpen ? 'open' : ''}`}>
+            <nav className="sidebar-nav">
+              <ul className="menu-options">
+                <li className={activeView === 'marcacion' ? 'active' : ''} 
+                    onClick={() => { setActiveView('marcacion'); setIsMenuOpen(false); }}>
+                  📍 Marcaciones
+                </li>
+                <li className={activeView === 'reportes' ? 'active' : ''} 
+                    onClick={() => { setActiveView('reportes'); setIsMenuOpen(false); }}>
+                  📊 Reportes
+                </li>
+              </ul>
+              
+              {/* NUEVA SECCIÓN DE CIERRE DE SESIÓN AL FINAL */}
+              <ul className="logout-option">
+              <li className="logout-item" onClick={handleLogout}>
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="20" 
+                  height="20" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  className="logout-icon"
+                >
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                  <polyline points="16 17 21 12 16 7"></polyline>
+                  <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                <span>Cerrar Sesión</span>
+              </li>
+              </ul>
+            </nav>
+          </div>
+          {isMenuOpen && <div className="menu-overlay" onClick={toggleMenu}></div>}
+        </>
+      )}
       <main className="app-main">
         {!isLoggedIn ? (
-          <LoginView 
-            setIsLoggedIn={setIsLoggedIn} 
-            setUserData={setUserData} 
-            setMessage={setMessage}
-          />
+          <LoginView setIsLoggedIn={setIsLoggedIn} setUserData={setUserData} setMessage={setMessage} />
         ) : (
-          <MarcacionView 
-            userData={userData} 
-            setIsLoggedIn={setIsLoggedIn}
-          />
+          <>
+            {/* RENDERIZADO CONDICIONAL SEGÚN LA VISTA SELECCIONADA */}
+            {activeView === 'marcacion' ? (
+              <MarcacionView userData={userData} setIsLoggedIn={setIsLoggedIn} />
+            ) : (
+              <div className="view-placeholder">
+                <h2>Módulo de Reportes</h2>
+                <p>Aquí verás el historial de tus marcaciones.</p>
+              </div>
+            )}
+          </>
         )}
       </main>
-      <footer className="app-footer">
-        <p>&copy; 2025 ITEM - Sistema de Marcación. Todos los derechos reservados.</p>
-      </footer>
     </div>
   );
 };

@@ -11,6 +11,7 @@ const App = () => {
   const [view, setView] = useState('login'); // 'login' o 'marcacion'
   const [userData, setUserData] = useState(null);
 
+  
   // Lógica para el manejo de la sesión (Reemplazando localStorage con useState por la arquitectura de React)
   useEffect(() => {
     // Aquí podrías intentar re-autenticar al usuario si usaras tokens JWT
