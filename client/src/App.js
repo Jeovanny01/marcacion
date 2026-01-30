@@ -368,6 +368,28 @@ const App = () => {
               </ul>
             </nav> 
           </div>
+          {/* --- ESTO ES LO QUE DEBES AGREGAR --- */}
+        <nav className="mobile-nav">
+          <div 
+            className={`nav-item ${activeView === 'marcacion' ? 'active' : ''}`}
+            onClick={() => setActiveView('marcacion')}
+          >
+            <span className="nav-icon">📍</span>
+            <span>Marcación</span>
+          </div>
+          <div 
+            className={`nav-item ${activeView === 'reportes' ? 'active' : ''}`}
+            onClick={() => setActiveView('reportes')}
+          >
+            <span className="nav-icon">📊</span>
+            <span>Reportes</span>
+          </div>
+          <div className="nav-item logout-mobile" onClick={handleLogout}>
+            <span className="nav-icon">🚪</span>
+            <span>Salir</span>
+          </div>
+        </nav>
+        {/* --- FIN DE LO NUEVO --- */}
           {isMenuOpen && <div className="menu-overlay" onClick={toggleMenu}></div>}
         </>
       )}
