@@ -316,6 +316,22 @@
 
 /* Adaptación a dispositivos móviles */
 @media (max-width: 768px) {
+
+  .hamburger-btn {
+    display: block !important; /* Cambia 'none' por 'block' */
+    position: relative;
+    z-index: 1002;
+    color: white; /* Asegúrate de que resalte sobre el fondo azul */
+    font-size: 1.8rem;
+    padding: 10px;
+  }
+
+  .app-header {
+    padding-top: env(safe-area-inset-top); /* Ajuste para el "Isla Dinámica" del iPhone 16 */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
   .app-header h1 {
       font-size: 1.2rem;
       text-align: center;
