@@ -366,7 +366,7 @@ const App = () => {
                 <span>Cerrar Sesión</span>
               </li>
               </ul>
-            </nav>
+            </nav> 
           </div>
           {isMenuOpen && <div className="menu-overlay" onClick={toggleMenu}></div>}
         </>
